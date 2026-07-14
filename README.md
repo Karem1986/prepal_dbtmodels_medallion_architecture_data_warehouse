@@ -1,10 +1,26 @@
-# prepal_dbtmodels_medallion_architecture_data_warehouse
+# Prepal Migration to dbt and orquestration through Airflow
 
-Prepal (fictitous name) is a retailer company, this project highlights how I solved the client's problems. The client already had a data warehouse of type 'on-premises' which had data from different sources: SAP and other on-premises sources. 
-This project demonstrates a production-grade, cost-effective Data Warehouse architecture designed to unify hybrid enterprise data streams—specifically an API-driven Cloud ERP (SAP) and an On-Premises Warehouse Management System (WMS) into a Kimball Star Schema optimized for Power BI reporting.
-The architecture leverages Apache Airflow for isolated ingestion, a SQL database engine for compute, and dbt to manage the Medallion transformation layers, eliminating the need for expensive cloud warehouse licenses while maintaining enterprise data governance.
+Prepal (fictitous name) is a retailer company that makes sustainable food packages.
+This project highlights how I solved two of their problems. Te first one was the lack of automation in the sql queries, which had to be done manually by the data analyst.
 
-The goal: decrease the time it takes to make the power bi reports and use dbt to automate the ELT pipelines once I migrate from store procedures to dbt models, also to enhance collaboration, tracking and monitoring with other members of the Sofware Engineering team.
+The client's data is in a SAP environment and on-premises.
+
+This project demonstrates a production-grade, cost-effective Data Warehouse architecture designed to unify hybrid enterprise data streams specifically an API-driven Cloud ERP (SAP) and an On-Premises Warehouse Management System (WMS) into a Kimball Star Schema optimized for Power BI reporting.
+
+The architecture leverages Apache Airflow for isolated ingestion and automated data pipelines orquestration, a SQL database engine for compute and dbt to manage the Medallion transformation layers, eliminating the need for expensive cloud warehouse licenses while maintaining enterprise data governance.
+
+The goal: decrease the time it takes to make power bi reports and use dbt to automate the ELT pipelines.4
+In order to achieve this goal, I perform a migration from  SQL store procedures to dbt models, this will also enhance team collaboration, and monitoring.
+
+## Security best practices
+
+I do not hardcode credentials into configuration files. I separated configuration from code by utilizing an external .env file that is strictly blacklisted in .gitignore.
+
+In our docker-compose.yml, the environment keys are dynamically injected at startup via host substitution. This exactly mirrors how a senior engineer prepares infrastructure for a production CI/CD pipeline where these exact same variables would be injected by a secure environment controller, such as GitHub Actions secrets or Azure Key Vault, without modifying a single line of application configuration
+
+## Simulation SQL Store Procedures
+
+In order to do the demo of how store procedures work and how this approach is improved with dbt, I made a simulation implementing two store procedures, one for extracting the data from SAP and the other store procedure for loading the data that contains only price information on the DW On-Premises of the client.
 
 ## Orchestration Layer (Airflow DAG)
 

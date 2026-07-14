@@ -1,0 +1,18 @@
+# Why Docker compose and simply not a local postgres database running locally?
+
+version: '3.8' # Docker will know which subordinate to use for the task!
+
+services: # Docker know what you want him to do! add more if you like:)
+  postgres:
+    image: postgres:15-alpine # Lightweight image to save disk space!
+    container_name: prepal_postgres # 4. DNS / Container Identifier
+    POSTGRES_USER: ${DB_USER}
+    POSTGRES_PASSWORD: ${DB_PASSWORD}
+    POSTGRES_DB: ${DB_NAME}
+    ports: # 6. From where are we spinning up this local database?
+      - "${DB_PORT}:5432"
+    volumes: # Where the data will be stored? Hint: Local Storage Mount
+      - postgres_data:/var/lib/postgresql/data
+
+volumes: # What would happen without a volume?
+  postgres_data:
