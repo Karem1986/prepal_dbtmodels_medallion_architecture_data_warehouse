@@ -1,17 +1,12 @@
--- ============================================================================
 -- 1. SCHEMAS INITIALIZATION
--- ============================================================================
+
 CREATE SCHEMA IF NOT EXISTS bronze_sap;
 CREATE SCHEMA IF NOT EXISTS bronze_onprem;
-CREATE SCHEMA IF NOT EXISTS silver;
-CREATE SCHEMA IF NOT EXISTS gold;
 CREATE SCHEMA IF NOT EXISTS audit;
 
--- ============================================================================
--- 2. BRONZE LAYER (RAW INGESTION TABLES)
--- ============================================================================
+-- 2. TABLES (RAW INGESTION & SIMPLE LOGS)
 
--- Raw SAP Ingestion (ERP Data)
+-- Raw SAP Ingestion
 CREATE TABLE IF NOT EXISTS bronze_sap.sap_sales_orders (
     sap_order_id VARCHAR(50),
     customer_id VARCHAR(50),
@@ -21,7 +16,7 @@ CREATE TABLE IF NOT EXISTS bronze_sap.sap_sales_orders (
     ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Raw On-Premises Ingestion (Legacy Retail System)
+-- Raw On-Premises Ingestion (Legacy Retail System with Pricing)
 CREATE TABLE IF NOT EXISTS bronze_onprem.retail_transactions (
     txn_id VARCHAR(50),
     store_id VARCHAR(50),
@@ -32,46 +27,54 @@ CREATE TABLE IF NOT EXISTS bronze_onprem.retail_transactions (
     ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Audit/Logging Table for Migrations
+-- Simple log table to show manual tracking in the demo
 CREATE TABLE IF NOT EXISTS audit.migration_logs (
     log_id SERIAL PRIMARY KEY,
     procedure_name VARCHAR(100) NOT NULL,
-    status VARCHAR(50) NOT NULL,       -- 'RUNNING', 'SUCCESS', 'FAILED'
+    status VARCHAR(50) NOT NULL,
     records_processed INT DEFAULT 0,
-    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    completed_at TIMESTAMP,
-    error_message TEXT
+    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ============================================================================
--- 3. STORED PROCEDURES (MIGRATION & ORCHESTRATION ENGINE)
--- ============================================================================
+-- 3. STORED PROCEDURES: EXTRACT & LOAD
 
--- Procedure 1: Log Start of Migration
-CREATE OR REPLACE PROCEDURE audit.sp_log_migration_start(
-    IN p_procedure_name VARCHAR,
-    OUT p_log_id INT
-)
+-- PROCEDURE 1: Extract data from SAP ERP
+CREATE OR REPLACE PROCEDURE bronze_sap.usp_extract_sap_orders()
 LANGUAGE plpgsql AS $$
 BEGIN
-    INSERT INTO audit.migration_logs (procedure_name, status, started_at)
-    VALUES (p_procedure_name, 'RUNNING', CURRENT_TIMESTAMP)
-    RETURNING log_id INTO p_log_id;
+    -- Clear old data to simulate a fresh batch extract
+    TRUNCATE TABLE bronze_sap.sap_sales_orders;
+
+    -- Insert Dummy SAP Sales Orders
+    INSERT INTO bronze_sap.sap_sales_orders (sap_order_id, customer_id, order_date, net_value, currency)
+    VALUES 
+        ('SO-1001', 'CUST_A', '2026-07-15 10:00:00', 1500.00, 'EUR'),
+        ('SO-1002', 'CUST_B', '2026-07-15 11:30:00', 450.50, 'EUR'),
+        ('SO-1003', 'CUST_C', '2026-07-15 14:15:00', 2200.00, 'EUR');
+
+    -- Manually log the success inside the procedure
+    INSERT INTO audit.migration_logs (procedure_name, status, records_processed)
+    VALUES ('usp_extract_sap_orders', 'SUCCESS', 3);
 END;
 $$;
 
 
--- Procedure 2: Log Completion/Success of Migration
-CREATE OR REPLACE PROCEDURE audit.sp_log_migration_success(
-    IN p_log_id INT,
-    IN p_records_processed INT
-)
+-- PROCEDURE 2: Load price data onto our on-premises DWH
+CREATE OR REPLACE PROCEDURE bronze_onprem.usp_sync_retail_transactions()
 LANGUAGE plpgsql AS $$
 BEGIN
-    UPDATE audit.migration_logs
-    SET status = 'SUCCESS',
-        records_processed = p_records_processed,
-        completed_at = CURRENT_TIMESTAMP
-    WHERE log_id = p_log_id;
+    -- Clear old data to simulate a fresh load
+    TRUNCATE TABLE bronze_onprem.retail_transactions;
+
+    -- Insert legacy transactional pricing data
+    INSERT INTO bronze_onprem.retail_transactions (txn_id, store_id, product_id, quantity, unit_price, txn_timestamp)
+    VALUES 
+        ('TXN-5001', 'STORE_01', 'PROD_99', 5, 20.00, '2026-07-15 09:00:00'),
+        ('TXN-5002', 'STORE_02', 'PROD_102', 2, 45.00, '2026-07-15 12:15:00'),
+        ('TXN-5003', 'STORE_01', 'PROD_05', 10, 12.50, '2026-07-15 15:30:00');
+
+    -- Manually log the success inside the procedure
+    INSERT INTO audit.migration_logs (procedure_name, status, records_processed)
+    VALUES ('usp_sync_retail_transactions', 'SUCCESS', 3);
 END;
 $$;
