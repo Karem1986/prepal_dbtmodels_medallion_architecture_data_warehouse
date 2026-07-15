@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "Redshift Driver (Dedicated ver)",
+            "name": "PrepalDWH",
+            "database": "prepal_dwh",
+            "username": "admin",
+            "password": "SuperSecurePassword2026!"
+        }
+    ]
+}
