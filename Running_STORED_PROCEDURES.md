@@ -1,4 +1,4 @@
-# Instructions to run the local Postgres Database using Docker compose 
+# Instructions to run the local Postgres Database using Docker compose
 
 1. To spin it up after cloning this repo:
 
@@ -6,10 +6,19 @@
 
 2. To shut it down:
         'docker-compose down'
-
-3. To run the data script via CLI, in the directory where the schema, tables and procedures are created:
+3. To pause it and save laptop memory
+        'docker-compose stop'
+4. To restart it:
+        'docker-compose start'
+5. Clean slate start and make sure everything is as left, old data is wiped and the new data is loaded:
+        'docker compose down -v'
+        'docker compose up -d'
+6. Then, run the script with cat:
         'cat init_db.sql | docker exec -i prepal_postgres psql -U admin -d prepal_dwh'
-Or via a VSC plugin. The Output should look like:
+And then test the data and procedures:
+        'cat test_run.sql | docker exec -i prepal_postgres psql -U admin -d prepal_dwh'
+
+The Output should look like:
                 CREATE SCHEMA
                 CREATE SCHEMA
                 CREATE SCHEMA
@@ -18,6 +27,4 @@ Or via a VSC plugin. The Output should look like:
                 CREATE TABLE
                 CREATE PROCEDURE
                 CREATE PROCEDURE
-4. Test if the stored procedures were saved successfully
-                'cat test_run.sql | docker exec -i prepal_postgres psql -U admin -d prepal_dwh'
 If status shows: SUCCESS, 2 rows and you see your stored procedures,schema and tables were successfully created.
