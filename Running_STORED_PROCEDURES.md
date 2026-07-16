@@ -28,3 +28,18 @@ The Output should look like:
                 CREATE PROCEDURE
                 CREATE PROCEDURE
 If status shows: SUCCESS, 2 rows and you see your stored procedures,schema and tables were successfully created.
+
+## Exploring the tables via pgAdmin UI
+
+![alt text](image-1.png)
+
+Right-click Servers ➡️ Register ➡️ Server...
+
+In the General tab:
+
+Name: Any name will do.
+
+In the Connection tab:
+
+Host name/address: postgres (Because they are on the same Docker network, pgAdmin can resolve the container name directly)
+The rest of information is found in the .env file.
