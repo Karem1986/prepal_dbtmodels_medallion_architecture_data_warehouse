@@ -3,7 +3,7 @@
 SELECT 'Executing SAP Extraction...' AS status;
 CALL bronze_sap.usp_extract_sap_orders();
 
-SELECT 'Executing Legacy On-Premise Sync...' AS status;
+SELECT 'Executing On-Premise Extraction...' AS status;
 CALL bronze_onprem.usp_sync_retail_transactions();
 
 -- 2. VERIFY THE INGESTED DATA and CHECK LOGS

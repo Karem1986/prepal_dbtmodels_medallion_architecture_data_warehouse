@@ -6,7 +6,7 @@ CREATE SCHEMA IF NOT EXISTS audit;
 
 -- 2. TABLES (RAW INGESTION & SIMPLE LOGS)
 
--- Raw SAP Ingestion
+-- SAP Ingestion
 CREATE TABLE IF NOT EXISTS bronze_sap.sap_sales_orders (
     sap_order_id VARCHAR(50),
     customer_id VARCHAR(50),

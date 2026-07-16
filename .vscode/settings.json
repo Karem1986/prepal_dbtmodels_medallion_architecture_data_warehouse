@@ -10,5 +10,23 @@
             "database": "prepal_dwh",
             "username": "admin"
         }
+    ],
+
+    "python.analysis.extraPaths": [
+        "./.venv/Lib/site-packages"
+    ],
+
+    "python.autoComplete.extraPaths": [
+        "./.venv/Lib/site-packages"
+    ],
+
+    // FIX FOR AIRFLOW NAMESPACE IMPORT WARNINGS:
+    "python.analysis.indexing": true,
+    "python.analysis.packageIndexDepths": [
+        {
+            "name": "airflow",
+            "depth": 5
+        }
     ]
+
 }
