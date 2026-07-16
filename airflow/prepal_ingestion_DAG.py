@@ -1,8 +1,8 @@
 # Here we have our DAG workflow to run the extraction and load of data from Prepal.
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.providers.postgres.operators.postgres import PostgresOperator
-from airflow.operators.empty import EmptyOperator
+from airflow.providers.postgres.operators.postgres import PostgresOperator # type: ignore
+from airflow.operators.empty import EmptyOperator # type: ignore
 
 # 1. Error handling: if a task fails it will retry every 5 mins
 default_args = {
