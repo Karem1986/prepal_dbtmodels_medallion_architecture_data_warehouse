@@ -1,20 +1,22 @@
 # Prepal Migration to dbt and orquestration through Airflow
 
-Prepal (fictitous name) is a retailer company that makes sustainable food packages.
-This project highlights how I solved two of their problems. Te first one was the lack of automation in the sql queries, which had to be done manually by the data analyst.
+For demostration purposes, the clients real name will not be revealed, this project is based on a data project I was part of whilst working by CGI as a data engineer.
+
+Prepal (fictitous name) is a retailer company that makes PFAS environmental friendly food packages.
 
 The client's data is in a SAP environment and on-premises.
 
-This project demonstrates a production-grade, cost-effective Data Warehouse architecture designed to unify hybrid enterprise data streams specifically an API-driven Cloud ERP (SAP) and an On-Premises Warehouse Management System (WMS) into a Kimball Star Schema optimized for Power BI reporting.
+This project demonstrates a production-grade, cost-effective Data Warehouse architecture designed to unify hybrid enterprise data streams specifically an API-driven Cloud ERP (SAP) and an On-Premises Warehouse Management System (WMS) into a Kimball Star Schema optimized for Power BI reporting. I solved two of their problems.
 
-The architecture leverages Apache Airflow for isolated ingestion and automated data pipelines orquestration, a SQL database engine for compute and dbt to manage the Medallion transformation layers, eliminating the need for expensive cloud warehouse licenses while maintaining enterprise data governance.
+PROBLEM 1: lack of tracking and monitoring in the SQL queries that were classic SQL stored procedures.
+SOLUTION: Migrate to dbt,  migration from  SQL store procedures to dbt models, this will also enhance team collaboration, and monitoring.
 
-The goal: decrease the time it takes to make power bi reports and use dbt to automate the ELT pipelines.4
-In order to achieve this goal, I perform a migration from  SQL store procedures to dbt models, this will also enhance team collaboration, and monitoring.
+PROBLEM 2: Power BI reports take too much time to make, data analysts have to access the data fom the onpremises DWH but the data is not organized, nor is automated to extract new data from SAP and other onpremises sources.
+SOLUTION: Apache Airflow for isolated ingestion and automated data pipelines orquestration, a SQL database engine for compute and dbt to manage the Medallion transformation layers, eliminating the need for expensive cloud warehouse licenses while maintaining enterprise data governance.
 
 ## Security best practices
 
-I do not hardcode credentials into configuration files. I separated configuration from code by utilizing an external .env file that is strictly blacklisted in .gitignore.
+I do not hardcode credentials into configuration files. I separated configuration from code by utilizing an external .env file that is strictly blacklisted in the .gitignore file.
 
 In our docker-compose.yml, the environment keys are dynamically injected at startup via host substitution. This exactly mirrors how a senior engineer prepares infrastructure for a production CI/CD pipeline where these exact same variables would be injected by a secure environment controller, such as GitHub Actions secrets or Azure Key Vault, without modifying a single line of application configuration
 

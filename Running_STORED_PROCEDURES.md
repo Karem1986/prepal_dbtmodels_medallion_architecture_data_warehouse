@@ -1,9 +1,7 @@
-# Instructions to run the local Postgres Database using Docker compose
+# Instructions to run the Postgres Stored Procedures and retrieve the data using Docker
 
 1. To spin it up after cloning this repo:
-
         'docker-compose up -d'
-
 2. To shut it down:
         'docker-compose down'
 3. To pause it and save laptop memory
