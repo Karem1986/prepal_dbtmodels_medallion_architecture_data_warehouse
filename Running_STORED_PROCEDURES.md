@@ -1,5 +1,7 @@
 # Instructions to run the Postgres Stored Procedures and retrieve the data using Docker
 
+Note that these commands will work in a Power Shell CLI:
+
 1. To spin it up after cloning this repo:
         'docker-compose up -d'
 2. To shut it down:
@@ -13,7 +15,7 @@
         'docker compose up -d'
 6. Then, run the script with cat:
         'cat init_db.sql | docker exec -i prepal_postgres psql -U admin -d prepal_dwh'
-And then test the data and procedures:
+7. Test the data and procedures:
         'cat test_run.sql | docker exec -i prepal_postgres psql -U admin -d prepal_dwh'
 
 The Output should look like:
