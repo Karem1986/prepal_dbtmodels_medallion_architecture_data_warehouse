@@ -32,3 +32,8 @@ Airflow acts as the automated heartbeat. It triggers a lightweight Python operat
 ## DBT vs SQL
 
 The transformation of the data (Silver layer) occurs within dbt models, which is far way better than using SQL stored procedures in the DW. With dbt models it is possible to automate these transformations, incentivate collaboration, allow monitoring and testing. Data lineage, being able to see the entire process from extraction to final transformations, is also possible with dbt.
+
+## Migration Phased Approach
+
+[Phase 1: Baseline] ──> [Phase 2: Airflow] ──> [Phase 3: dbt Migration] (PENDING)
+     (Done)            (Where we are now)            (Next strategic step)
