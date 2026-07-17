@@ -44,5 +44,5 @@ If we look at enterprise migration frameworks—like 'Rehost-then-Refactor' mode
 
 By setting up Apache Airflow orchestration layer first, we establish a stable, containerized scheduling baseline using our existing stored procedures. We prove our connections, docker networks, and error-handling work perfectly.
 
-Once the infrastructure proves is working seamlessly, we can systematically migrate our SQL logic to dbt models in Phase 3. This one-variable-at-a-time approach minimizes deployment risk and makes debugging incredibly straightforward.
+Once the infrastructure proves is working seamlessly, we can migrate our SQL logic to dbt models in Phase 3. This one-variable-at-a-time approach minimizes deployment risk and makes debugging incredibly straightforward.
 
