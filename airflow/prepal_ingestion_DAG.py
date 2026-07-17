@@ -1,6 +1,5 @@
-# Here we have our DAG workflow to run the extraction and load of data from Prepal.
-# In a later phase, I will spin up Airflow on port 8085. 
-# This DAG file (prepal_ingestion_dag.py) is designed to connect via the Docker network 
+# Here we have our DAG workflow to run the extraction and load
+# In a later phase, I will spin up Airflow on port 8085, keeping the laptop lightweight for screen sharing!
 # using the host alias prepal_postgres rather than localhost, ensuring that once the Airflow container is live,
 # it can immediately orchestrate our parallel ingestion tasks
 from datetime import datetime, timedelta

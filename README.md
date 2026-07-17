@@ -1,7 +1,7 @@
 # Prepal Migration to dbt and orquestration through Airflow
 
 ![Table migration logs](image.png)
-For demostration purposes, the clients real name will not be revealed, this project is based on a data project I was part of whilst working by CGI as a data engineer.
+This project is based on a data engineering project I was part of whilst working by CGI as a data engineer.
 
 Prepal (fictitous name) is a retailer company that makes PFAS environmental friendly food packages.
 
