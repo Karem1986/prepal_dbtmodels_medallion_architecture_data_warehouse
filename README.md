@@ -10,7 +10,7 @@ The client's data is in a SAP environment and on-premises.
 This project demonstrates a production-grade, cost-effective Data Warehouse architecture designed to unify hybrid enterprise data streams specifically an API-driven Cloud ERP (SAP) and an On-Premises Warehouse Management System (WMS) into a Kimball Star Schema optimized for Power BI reporting. I solved two of their problems.
 
 PROBLEM 1: lack of tracking and monitoring in the SQL queries that were classic SQL stored procedures.
-SOLUTION: Migrate to dbt,  migration from  SQL store procedures to dbt models, this will also enhance team collaboration, and monitoring.
+SOLUTION: Migrate to dbt, migration from  SQL store procedures to dbt models, this will also enhance team collaboration, continuous monitoring and automated testing.
 
 PROBLEM 2: Power BI reports take too much time to make, data analysts have to access the data fom the onpremises DWH but the data is not organized, nor is automated to extract new data from SAP and other onpremises sources.
 SOLUTION: Apache Airflow for isolated ingestion and automated data pipelines orquestration, a SQL database engine for compute and dbt to manage the Medallion transformation layers, eliminating the need for expensive cloud warehouse licenses while maintaining enterprise data governance.
@@ -45,4 +45,3 @@ If we look at enterprise migration frameworks—like 'Rehost-then-Refactor' mode
 By setting up Apache Airflow orchestration layer first, we establish a stable, containerized scheduling baseline using our existing stored procedures. We prove our connections, docker networks, and error-handling work perfectly.
 
 Once the infrastructure proves is working seamlessly, we can migrate our SQL logic to dbt models in Phase 3. This one-variable-at-a-time approach minimizes deployment risk and makes debugging incredibly straightforward.
-
