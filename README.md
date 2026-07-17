@@ -37,3 +37,12 @@ The transformation of the data (Silver layer) occurs within dbt models, which is
 
 [Phase 1: Baseline] ──> [Phase 2: Airflow] ──> [Phase 3: dbt Migration] (PENDING)
      (Done)            (Where we are now)            (Next strategic step)
+
+## Decopupling Infrastructure from Code for easier debugging
+
+If we look at enterprise migration frameworks—like 'Rehost-then-Refactor' model or Martin Fowler's Strangler Fig pattern—the safest path to modernizing a legacy pipeline is to decouple the infrastructure migration from the code refactoring.
+
+By setting up Apache Airflow orchestration layer first, we establish a stable, containerized scheduling baseline using our existing stored procedures. We prove our connections, docker networks, and error-handling work perfectly.
+
+Once the infrastructure proves is working seamlessly, we can systematically migrate our SQL logic to dbt models in Phase 3. This one-variable-at-a-time approach minimizes deployment risk and makes debugging incredibly straightforward.
+
